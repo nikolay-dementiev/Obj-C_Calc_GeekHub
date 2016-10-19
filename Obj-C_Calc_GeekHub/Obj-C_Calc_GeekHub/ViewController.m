@@ -12,11 +12,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *ConsoleOutput;
 @property (weak, nonatomic) IBOutlet UITextField *inputData;
 
-@property (weak, nonatomic) IBOutlet UIButton *operationButtonPlus;
-@property (weak, nonatomic) IBOutlet UIButton *operationButtonMinus;
-@property (weak, nonatomic) IBOutlet UIButton *operationButtonMultiply;
-@property (weak, nonatomic) IBOutlet UIButton *operationButtonDevide;
-@property (weak, nonatomic) IBOutlet UIButton *operationButtonEquel;
+float calculateOperation(int oper);
+
+typedef enum {
+		none,
+		plus,
+		minus,
+		multiply,
+		devide
+} Oper;
 
 @end
 
@@ -25,7 +29,8 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-}
+
+		}
 
 
 - (void)didReceiveMemoryWarning {
@@ -34,11 +39,58 @@
 }
 
 //MARK: - operation
+- (IBAction)inputDigitClicked:(UIButton *)sender {
+		self.lastValue = [_inputData.text floatValue];
+}
 
+- (IBAction)operationButtonPlusClick:(UIButton *)sender {
+		[self caltIt:1 description:sender.tag];
+}
 
+- (IBAction)operationButtonMinusClick:(UIButton *)sender{
+}
+- (IBAction)operationButtonMultiplyClick:(UIButton *)sender{
+}
+- (IBAction)operationButtonDevideClick:(UIButton *)sender{
+}
+- (IBAction)operationButtonEquelClick:(UIButton *)sender{
+}
 
-- (void)calculateOperation {
+- (void) caltIt: (int)oper description:(long)descriptionOfOper {
+
+		float result;
+		result = calculateOperation(1);
+
+		NSLog(@"Result of %d %ld %d is: %f", self.lastValue, (long)descriptionOfOper, self.curretValue, result);
+		_ConsoleOutput.text = [NSString stringWithFormat:@"%.3f", result];
 
 }
+
+- (float) calculateOperation: (int) oper {
+		float result;
+
+		result = 0;
+
+		switch (oper) {
+				case 1:
+						result = self.lastValue + self.curretValue;
+						break;
+				case 2:
+						result = self.lastValue - self.curretValue;
+						break;
+				case 3:
+						result = self.lastValue * self.curretValue;
+						break;
+				case 4:
+						result = self.lastValue / self.curretValue;
+						break;
+
+				default:
+						break;
+		}
+
+		return result;
+}
+
 
 @end

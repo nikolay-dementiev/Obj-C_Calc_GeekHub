@@ -27,11 +27,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter data" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0wa-uy-GdW">
-                                <frame key="frameInset" minX="16" minY="91" width="343" height="30"/>
+                                <frame key="frameInset" minX="16" minY="91" width="304" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLL-PQ-CNx">
                                 <frame key="frameInset" minX="16" minY="158" width="71" height="60"/>
@@ -40,6 +40,9 @@
                                 <state key="normal" title="+">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="operationButtonPlusClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DOZ-5O-BbH"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kbp-EB-eeR">
                                 <frame key="frameInset" minX="196" minY="158" width="71" height="60"/>
@@ -48,6 +51,9 @@
                                 <state key="normal" title="*">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="operationButtonMultiplyClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="G1i-4B-opt"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UVo-rX-XiI">
                                 <frame key="frameInset" minX="288" minY="158" width="71" height="60"/>
@@ -56,6 +62,9 @@
                                 <state key="normal" title="÷">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="operationButtonDevideClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sbX-jr-7ta"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XaB-4o-nlo">
                                 <frame key="frameInset" minX="105" minY="158" width="71" height="60"/>
@@ -64,6 +73,20 @@
                                 <state key="normal" title="-">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="operationButtonMinusClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dSc-Xp-MSL"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qxc-ai-ThV">
+                                <frame key="frameInset" minX="322" minY="91" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="ok">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="inputDigitClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VYX-Qe-GMR"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gu4-NW-zeM">
                                 <frame key="frameInset" minX="288" minY="247" width="71" height="98"/>
@@ -72,6 +95,9 @@
                                 <state key="normal" title="=">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="operationButtonEquelClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jrA-1c-Gv7"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -79,11 +105,6 @@
                     <connections>
                         <outlet property="ConsoleOutput" destination="PPy-Sz-Qg4" id="lGY-hr-noA"/>
                         <outlet property="inputData" destination="0wa-uy-GdW" id="12s-S7-8zc"/>
-                        <outlet property="operationButtonDevide" destination="UVo-rX-XiI" id="leL-ai-5At"/>
-                        <outlet property="operationButtonEquel" destination="gu4-NW-zeM" id="1xc-UU-6z4"/>
-                        <outlet property="operationButtonMinus" destination="XaB-4o-nlo" id="24N-XH-rVa"/>
-                        <outlet property="operationButtonMultiply" destination="Kbp-EB-eeR" id="ZDL-R4-dkW"/>
-                        <outlet property="operationButtonPlus" destination="dLL-PQ-CNx" id="GMu-w2-ecl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

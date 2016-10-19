@@ -9,7 +9,20 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
+		-(float) curretValue;
+		-(float) lastValue;
 
+
+//typedef NSString * operation NS_STRING_ENUM;
+
+
+//@interface MyClass : NSObject {
+//		NSString *name;
+//		NSString *adress;
+//}
+
+//@property (nonatomic, retain) int *curretValue;
+//@property (nonatomic, retain) int *lastValue;
 
 @end
 
