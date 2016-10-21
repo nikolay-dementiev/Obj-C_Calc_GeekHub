@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Obj-C_Calc_GeekHub.xcodeproj">
+      location = "self:Obj-c_ConsoleCalc_GeekHub.xcodeproj">
    </FileRef>
 </Workspace>
