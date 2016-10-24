@@ -22,7 +22,11 @@ void addNumber (NSMutableString* numberBuf, unichar token, NSMutableArray* token
 BOOL precedenceOf (NSString* operator, NSString* otherOperator);
 int precedenceOf1 (NSString* operator);
 NSString* workwithReggex (NSString* str);
+NSString* replaceTheSymbol (NSString* str, NSString* patternStr, NSString* replaceStr);
 
+@interface NSDecimalNumber (SquareRoot)
+- (NSDecimalNumber *) squareRoot;
+@end
 
 //MARK: - stack func.
 int size (NSMutableArray* stack) {
@@ -54,7 +58,7 @@ BOOL empty(NSMutableArray* stack) { return [stack count] == 0;}
 //MARK: - calc func.
 //MARK: postfix func.
 NSDecimalNumber* computePostfix(NSString *postfix) {
-		operators = [NSArray arrayWithObjects: @"+", @"-", @"*", @"/", @"^", nil];
+		operators = [NSArray arrayWithObjects: @"+", @"-", @"*", @"/", @"^", "√", nil];
 		stacks = [NSMutableArray new];
 
 		NSString* strippedExpression = [postfix stringByTrimmingCharactersInSet:
@@ -216,8 +220,17 @@ NSString* workwithReggex (NSString* str) {
 		//NSMutableString *strW = [NSMutableString stringWithString: str];
 
 		NSString* strW = str;
-		//find sqr
-		NSRegularExpression *regex = [[NSRegularExpression new] initWithPattern:@"\\*[\\s]?sqr(?=([ \\s]?)\\([0-9\\.]*\\))"
+
+		strW = replaceTheSymbol (strW, @"\\*[\\s]?sqr(?=([ \\s]?)\\([0-9\\.]*\\))", @"^");
+		strW = replaceTheSymbol (strW, @"sqrt([\\s]?)\\([0-9\\.]*\\)", @"√");
+
+		return strW;
+}
+
+NSString* replaceTheSymbol (NSString* str, NSString* patternStr, NSString* replaceStr) {
+
+		NSString* strW = str;
+		NSRegularExpression *regex = [[NSRegularExpression new] initWithPattern:patternStr
 																																		options:0
 																																			error:nil];
 		long n = [regex numberOfMatchesInString:strW
@@ -233,14 +246,14 @@ NSString* workwithReggex (NSString* str) {
 				for (NSTextCheckingResult *match in matches)
 				{
 						NSString *matchText = [strW substringWithRange:[match range]];
-						//NSLog(@"Found String:%@\n", matchText);
-						strW = [strW stringByReplacingOccurrencesOfString:matchText withString:@"^"];
+						strW = [strW stringByReplacingOccurrencesOfString:matchText withString:replaceStr];
 
 				}
 		}
 
 		return strW;
 }
+
 
 //MARK: - private methods
 
@@ -258,6 +271,8 @@ NSDecimalNumber* computeOperator (NSString* operator, NSDecimalNumber* firstOper
 				result = [firstOperand decimalNumberBySubtracting: secondOperand];
 		} else if ([operator compare: @"^"] == 0) {
 				result = [firstOperand decimalNumberByRaisingToPower: [secondOperand intValue]];
+		} else if ([operator compare: @"√"] == 0) {
+				result = [secondOperand squareRoot];
 		} else if ([operator compare: @"/"] == 0) {
 				if ([[NSDecimalNumber zero] compare: secondOperand] == NSOrderedSame) {
 						NSLog(@"Divide by zero !");
@@ -362,6 +377,40 @@ BOOL precedenceOf (NSString* operator, NSString* otherOperator) {
 
 //MARK: other
 NSString* getFunctionForAnalyze() {
-		return @"((3 + 4)/2 *sqr(2))* 5";//@"3 + 4 * 5";//"2+(3*4)/5"; //@"2+(3 * sqr(2) - sqrt(4))/5";
+		return @"((sqrt(4) + 4)/2 *sqr(2))* 5";//@"3 + 4 * 5";//"2+(3*4)/5"; //@"2+(3 * sqr(2) - sqrt(4))/5";
 }
+
+@implementation NSDecimalNumber (SquareRoot)
+- (NSDecimalNumber *)sqrt
+{
+		if ([self compare:[NSDecimalNumber zero]] == NSOrderedAscending)
+		{
+				return [NSDecimalNumber notANumber];
+		}
+
+		NSDecimalNumber *half =
+		[NSDecimalNumber decimalNumberWithMantissa:5 exponent:-1 isNegative:NO];
+		NSDecimalNumber *guess =
+		[[self decimalNumberByAdding:[NSDecimalNumber one]]
+		 decimalNumberByMultiplyingBy:half];
+
+		@try
+		{
+				const int NUM_ITERATIONS_TO_CONVERGENCE = 6;
+				for (int i = 0; i < NUM_ITERATIONS_TO_CONVERGENCE; i++)
+				{
+						guess =
+						[[[self decimalNumberByDividingBy:guess]
+							decimalNumberByAdding:guess]
+						 decimalNumberByMultiplyingBy:half];
+				}
+		}
+		@catch (NSException *exception)
+		{
+				// deliberately ignore exception and assume the last guess is good enough
+		}
+
+		return guess;
+}
+@end
 
