@@ -21,44 +21,7 @@ NSArray* tokenize (NSString* expression);
 void addNumber (NSMutableString* numberBuf, unichar token, NSMutableArray* tokens);
 BOOL precedenceOf (NSString* operator, NSString* otherOperator);
 int precedenceOf1 (NSString* operator);
-
-//void push(NSString *digit) {
-//		[stacks addObject:digit];
-//}
-//
-//int pop() {
-//		NSInteger lenStack = [stacks count];
-//		if (lenStack < 0) {
-//				return -1;
-//		} else if (lenStack == 0) {
-//				return 0;
-//		}
-//		int res = [[stacks objectAtIndex:lenStack-1] intValue];
-//		[stacks removeLastObject];
-//		return res;
-//}
-
-
-/* Функция PRIOR возвpащает пpиоpитет аpифм. опеpации */
-//int PRIOR(char a) {
-//		int valueReturn = 0;
-//  switch(a)
-//  {
-//			case '*':
-//			case '/':
-//					valueReturn = 3;
-//					break;
-//			case '-':
-//			case '+':
-//					valueReturn = 2;
-//					break;
-//
-//			case '(':
-//					valueReturn = 1;
-//					break;
-//	}
-//		return valueReturn;
-//}
+NSString* workwithReggex (NSString* str);
 
 
 //MARK: - stack func.
@@ -126,7 +89,7 @@ NSDecimalNumber* computePostfix(NSString *postfix) {
 				}
 		}
 
-		if (size(stacks) != 1){
+		if (size(stacks) != 1) {
 				NSLog(@"Error : Invalid RPN expression. Stack contains %d elements after computing expression, only one should remain.",	size(stacks));
 				return nil;
 		} else {
@@ -134,46 +97,16 @@ NSDecimalNumber* computePostfix(NSString *postfix) {
 				return result;
 		}
 
-//		for (int i=0; i<[S length];i++)
-//		{
-//				NSString *chr = [S substringWithRange:NSMakeRange(i,1)];
-////				if ([chr isEqualToString:@"+"])
-////				{
-////						int d1 = pop();
-////						int d2 = pop();
-////						if (d1!= -1 && d2!= -1){
-////								push([NSString stringWithFormat:@"%d", d1+d2]);
-////						}else{
-////								return -1;
-////						}
-////				}else if ([chr isEqualToString:@"*"]){
-////						int d1 = pop();
-////						int d2 = pop();
-////						if (d1!= -1 && d2!= -1){
-////								push([NSString stringWithFormat:@"%d", d1*d2]);
-////						}else{
-////								return -1;
-////						}
-////				}else{
-////						push(chr);
-////				}
-//
-//
-//		}
-//
-//		int res = pop();
-//		[stacks removeAllObjects];
-//		//[stacks release];
 		return 0;
 }
 
 //MARK: infix func.
-BOOL hasBalancedBrackets (NSString* expression){
+BOOL hasBalancedBrackets (NSString* expression) {
 
 		unichar c;
 		int opened = 0, closed = 0;
 
-		for (int i = 0; i< [expression length] ; i++){
+		for (int i = 0; i< [expression length] ; i++) {
 				c = [expression characterAtIndex: i];
 				if (c == '(') opened++;
 				else if (c == ')') closed++;
@@ -187,7 +120,7 @@ void print(NSMutableArray* stack){
 }
 
 NSString* parseInfix (NSString* infix) {
-		if ( ! hasBalancedBrackets(infix)) {
+		if (! hasBalancedBrackets(infix)) {
 				NSLog(@"Unbalanced brackets in expression");
 				return nil;
 		}
@@ -196,7 +129,7 @@ NSString* parseInfix (NSString* infix) {
 		NSMutableArray* opStack = stacks;
 		NSMutableString* output = [NSMutableString stringWithCapacity:[infix length]];
 
-//		print(opStack);
+		//		print(opStack);
 
 		NSArray* tokens = tokenize(infix);
 		for (NSString *token in tokens) {
@@ -213,18 +146,18 @@ NSString* parseInfix (NSString* infix) {
 
 						//print(opStack);
 
-				} else if ([token compare: @"("] ==0){
+				} else if ([token compare: @"("] ==0) {
 						// push opening brackets on the stack, will be dismissed later
 						push(token, opStack);
 				} else if ([token compare: @")"] ==0) {
 						// closing bracket :
 						// pop operators off the stack and append them to the output while the popped element is not the opening bracket
 						NSString* op = pop(opStack);
-		    while ( op  && ([op compare: @"("] != 0)){
+		    while ( op  && ([op compare: @"("] != 0)) {
 						[output appendString: [NSString stringWithFormat: @"%@ ", op]];
 						op = pop(opStack);
 				}
-						if ( ! op || ([op compare: @"("]  != 0)){
+						if ( ! op || ([op compare: @"("]  != 0)) {
 								NSLog(@"Error : unbalanced brackets in expression");
 								return nil;
 						}
@@ -234,21 +167,22 @@ NSString* parseInfix (NSString* infix) {
 				}
 
 				//print(opStack);
-
 		}
 
 		//pop remaining operators off the stack, and append them to the output
 		while (! empty(opStack)) {
 				[output appendString: [NSString stringWithFormat: @"%@ ", pop(opStack)]];
 		}
-		
+
 		return [output stringByTrimmingCharactersInSet:
 						[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 //MARK: - init
 NSDecimalNumber* computeExpression (NSString* infix) {
-		NSString* postfixExpression = parseInfix(infix);
+		NSString* regexExpression = workwithReggex(infix);
+
+		NSString* postfixExpression = parseInfix(regexExpression);
 
 		if (postfixExpression) {
 				return computePostfix(postfixExpression);
@@ -260,12 +194,6 @@ NSDecimalNumber* computeExpression (NSString* infix) {
 void analyzeExpression() {
 
 		NSString* funcForAnalyze = getFunctionForAnalyze();
-		//		NSExpression *expression = [NSExpression expressionWithFormat:funcForAnalyze];
-		//
-		//		NSNumber *result = [expression expressionValueWithObject:nil context:nil];
-		//		NSLog(@"%@",result);
-
-		//computePostfix(funcForAnalyze);
 
 		NSDecimalNumber* rez = computeExpression(funcForAnalyze);
 		if (rez != nil) {
@@ -273,54 +201,45 @@ void analyzeExpression() {
 		} else {
 				NSLog(@"Can't calculate result; smth wrong!");
 		}
-
-
-		//		int c,err;
-		//  double x,y;
-		//  char *p,*q;
-		//  NSMutableData *line = [NSMutableData new];
-		//  NSMutableArray *stk = [NSMutableArray new];
-		//#define POP(z) z = [[stk lastObject] doubleValue]; \
-		//[stk removeLastObject]
-		//  while ((c=getchar())!=EOF) {
-		//			if (c=='\n') c = 0;
-		//			[line appendBytes:(void*)&c length:1];
-		//			if (c) continue;
-		//			[stk removeAllObjects];
-		//			p = [line mutableBytes];
-		//			err = 0;
-		//			while (NULL!=(q=strtok(p," \t"))) {
-		//					x = strtod(q,&p);
-		//					err = *p;
-		//					p = NULL;
-		//					if (err) {
-		//							err = q[1] || NULL==strchr("+-*/",*q) || 2>[stk count];
-		//							if (err) break;
-		//							POP(y); POP(x);
-		//							switch (*q) {
-		//									case '+': x += y; break;
-		//									case '-': x -= y; break;
-		//									case '*': x *= y; break;
-		//									case '/': x /= y;
-		//							}
-		//					}
-		//					[stk addObject:[NSNumber numberWithDouble:x]];
-		//			}
-		//			if (err || 1<[stk count]) puts("error");
-		//			else if ([stk count]) {POP(x); printf("%f\n",x);}
-		//			[line setLength:0];
-		//	}
-
 }
 
 int main(int argc, const char * argv[]) {
 		@autoreleasepool {
-				// insert code here...
-				//NSLog(@"Hello, World!");
 
 				analyzeExpression();
 		}
 		return 0;
+}
+
+//MARK: - Regular ext.
+NSString* workwithReggex (NSString* str) {
+		//NSMutableString *strW = [NSMutableString stringWithString: str];
+
+		NSString* strW = str;
+		//find sqr
+		NSRegularExpression *regex = [[NSRegularExpression new] initWithPattern:@"\\*[\\s]?sqr(?=([ \\s]?)\\([0-9\\.]*\\))"
+																																		options:0
+																																			error:nil];
+		long n = [regex numberOfMatchesInString:strW
+																		options:0
+																			range:NSMakeRange(0, [strW length])];
+
+		if (n> 0)
+		{
+				NSArray *matches = [regex matchesInString:strW
+																					options:0
+																						range:NSMakeRange(0, [str length])];
+
+				for (NSTextCheckingResult *match in matches)
+				{
+						NSString *matchText = [strW substringWithRange:[match range]];
+						//NSLog(@"Found String:%@\n", matchText);
+						strW = [strW stringByReplacingOccurrencesOfString:matchText withString:@"^"];
+
+				}
+		}
+
+		return strW;
 }
 
 //MARK: - private methods
@@ -340,13 +259,14 @@ NSDecimalNumber* computeOperator (NSString* operator, NSDecimalNumber* firstOper
 		} else if ([operator compare: @"^"] == 0) {
 				result = [firstOperand decimalNumberByRaisingToPower: [secondOperand intValue]];
 		} else if ([operator compare: @"/"] == 0) {
-				if ([[NSDecimalNumber zero] compare: secondOperand] == NSOrderedSame){
+				if ([[NSDecimalNumber zero] compare: secondOperand] == NSOrderedSame) {
 						NSLog(@"Divide by zero !");
 						return [NSDecimalNumber notANumber];
 				}
 				else
-						result = [firstOperand decimalNumberByDividingBy: secondOperand];	}
-		
+						result = [firstOperand decimalNumberByDividingBy: secondOperand];
+		}
+
 		return result;
 }
 
@@ -360,7 +280,7 @@ NSArray* tokenize (NSString* expression) {
 		int length = (int)[expression length];
 		BOOL nextMinusSignIsNegativeOperator = YES;
 
-		for (int i = 0; i< length; i++){
+		for (int i = 0; i< length; i++) {
 				c = [expression characterAtIndex: i];
 				switch (c) {
 						case '+':
@@ -368,12 +288,12 @@ NSArray* tokenize (NSString* expression) {
 						case '*':
 						case '^':
 								nextMinusSignIsNegativeOperator = YES;
-								addNumber(numberBuf, c, tokens);//[self addNumber: numberBuf andToken: c toTokens:tokens];
+								addNumber(numberBuf, c, tokens);
 								break;
 						case '(':
 		    case ')':
 								nextMinusSignIsNegativeOperator = NO;
-								addNumber(numberBuf, c, tokens);//[self addNumber: numberBuf andToken: c toTokens:tokens];
+								addNumber(numberBuf, c, tokens);
 								break;
 						case '-':
 								if (nextMinusSignIsNegativeOperator){
@@ -381,7 +301,7 @@ NSArray* tokenize (NSString* expression) {
 										[numberBuf appendString : [NSString stringWithCharacters: &c length:1]];
 								} else {
 										nextMinusSignIsNegativeOperator = YES;
-										addNumber(numberBuf, c, tokens);//[self addNumber: numberBuf andToken: c toTokens:tokens];
+										addNumber(numberBuf, c, tokens);
 								}
 
 								break;
@@ -408,7 +328,7 @@ NSArray* tokenize (NSString* expression) {
 		}
 		if ([numberBuf length] > 0)
 				[tokens addObject:  [NSString stringWithString: numberBuf]];
-		
+
 		return tokens;
 }
 
@@ -442,6 +362,6 @@ BOOL precedenceOf (NSString* operator, NSString* otherOperator) {
 
 //MARK: other
 NSString* getFunctionForAnalyze() {
-		return @"((3 + 4)/2)* 5";//@"3 + 4 * 5";//"2+(3*4)/5"; //@"2+(3 * sqr(2) - sqrt(4))/5";
+		return @"((3 + 4)/2 *sqr(2))* 5";//@"3 + 4 * 5";//"2+(3*4)/5"; //@"2+(3 * sqr(2) - sqrt(4))/5";
 }
 
