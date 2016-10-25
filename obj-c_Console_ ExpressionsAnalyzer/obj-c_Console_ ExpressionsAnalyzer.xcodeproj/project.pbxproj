@@ -41,7 +41,7 @@
 		E7CD6C3B1DBA3D2C005FB1F1 = {
 			isa = PBXGroup;
 			children = (
-				E7CD6C461DBA3D2C005FB1F1 /* obj-c_Console_ ExpressionsAnalyzer */,
+				E7CD6C461DBA3D2C005FB1F1 /* obj-c_ConsoleExpressionsAnalyzer */,
 				E7CD6C451DBA3D2C005FB1F1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,11 +54,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E7CD6C461DBA3D2C005FB1F1 /* obj-c_Console_ ExpressionsAnalyzer */ = {
+		E7CD6C461DBA3D2C005FB1F1 /* obj-c_ConsoleExpressionsAnalyzer */ = {
 			isa = PBXGroup;
 			children = (
 				E7CD6C471DBA3D2C005FB1F1 /* main.m */,
 			);
+			name = "obj-c_ConsoleExpressionsAnalyzer";
 			path = "obj-c_Console_ ExpressionsAnalyzer";
 			sourceTree = "<group>";
 		};
@@ -246,6 +247,7 @@
 				E7CD6C4D1DBA3D2C005FB1F1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
